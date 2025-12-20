@@ -6,8 +6,16 @@ from langchain_core.documents import Document
 import os
 
 class vectorstoremanager:
+    """
+    Manages a FAISS vector store for document embeddings.
+    """
     
     def __init__(self,embedding_manager:embeddingmanager=None):
+        """
+        Initialize the VectorStoreManager with an embedding manager.
+        Args:
+        embedding_manager (embeddingmanager, optional): An embedding manager instance. Defaults to None.
+        """
 
         self.embedding_manager=embedding_manager or embeddingmanager()
         self._vector_store:Optional[FAISS]=None
@@ -16,10 +24,20 @@ class vectorstoremanager:
 
     @property
     def vector_store(self)->Optional[FAISS]:
+        """
+        Get the FAISS vector store instance.
+        Returns:
+        FAISS: The FAISS vector store instance.
+        """
         # Get the vector store instance
         return self._vector_store
 
     def is_initialized(self)->bool:
+        """
+        Check if the vector store is initialized.    
+        Returns:
+        bool: True if the vector store is initialized, False otherwise.
+        """
         return self._vector_store is not None
     
     def create_from_documents(self,documents:List[Document])->FAISS:
@@ -46,7 +64,14 @@ class vectorstoremanager:
         else:
             self._vector_store.add_documents(documents)
         
-    def serch(self,query:str,k:int=None)->List[Document]:
+    def serch(self,query:str,k:int=None)->List[Document]:  
+        """
+        search the vector store for similar documents
+        Args:
+        query: search query
+        k: number of top results to retrieve
+        returns: list of document objects
+        """
         if not self.is_initialized():
             raise ValueError("Vector store is not initialized")
         k=k or settings.TOP_K_RESULTS

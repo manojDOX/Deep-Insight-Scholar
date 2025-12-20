@@ -6,6 +6,9 @@ load_dotenv()
 
 @dataclass
 class Settings:
+    """
+    Configuration settings loaded from environment variables.
+    """
 
     _FAISS_INDEX_PATH:str = os.getenv("FAISS_INDEX_PATH")
     EMBEDDING_MODEL:str = os.getenv("EMBEDDING_MODEL")
