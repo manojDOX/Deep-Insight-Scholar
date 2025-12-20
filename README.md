@@ -1,4 +1,3 @@
-```
 # Deep Insight Scholar
 
 ## Design Overview
@@ -152,7 +151,6 @@ This project currently implements:
 - Vector search and retrieval
 
 Further layers (UI, analytics, RAG answering) can be added on top of the existing foundation.
-```
 
 ---
 
