@@ -1,6 +1,7 @@
 # Deep Insight Scholar
 
 Name: Manoj B
+
 Email: manoj2882003@gmail.com
 
 ## Design Overview
