@@ -15,5 +15,9 @@ class Settings:
     CHUNK_SIZE:int=int(os.getenv("CHUNK_SIZE"))
     CHUNK_OVERLAP:int=int(os.getenv("CHUNK_OVERLAP"))
     TOP_K_RESULTS:int=int(os.getenv("TOP_K_RESULTS"))
+    GPT_MODEL_NAME:str=str(os.getenv("GPT_MODEL_NAME"))
+    GROQ_API_KEY:str=str(os.getenv("GROQ_API_KEY"))
+    TEMPRATURE:int=int(os.getenv("TEMPRATURE"))
+    TAVILY_API_KEY:str=str(os.getenv("TAVILY_API_KEY"))
 
 settings = Settings()

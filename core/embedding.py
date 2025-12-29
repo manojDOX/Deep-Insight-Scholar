@@ -3,7 +3,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from typing import List, Dict
 
 
-class embeddingmanager:
+class EmbeddingManager:
     """
     Manages text embeddings using a specified HuggingFace model.
     """
@@ -12,7 +12,8 @@ class embeddingmanager:
         self.model_name = model_name or settings.EMBEDDING_MODEL
         self._embedding = HuggingFaceEmbeddings(
             model_name=self.model_name,
-            model_kwargs={"device": "cpu"}
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True}
         )
 
     @property

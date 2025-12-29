@@ -1,95 +1,54 @@
-from core import DocumentProcessor
-from core.embedding import embeddingmanager
-from core.vector_store import vectorstoremanager
-from core.document_adapter import DocumentAdapter
+from core.document_processing import DocumentProcessor
+from core.embedding import EmbeddingManager
+from core.vector_store import VectorStoreManager
+from core.chain import RAGChain
+from core.structure import ResearchPaper
+from core.chunking import Chunking
+from core.meta_extraction import MetaExtraction
+from langchain_core.documents import Document
+from pathlib import Path
+import sqlite3
 
 
-def main():
+print("\nSTEP 0. Loading document ")
+# dir_path = "Nvidia_tidar.pdf"
+dir_path = "attention_all_you_need.pdf"
+print(f"Document path: {dir_path}")
 
-    print("\nSTEP 1. Processing document and creating chunks")
+print("\nSTEP 1. Processing document ")
+processor = DocumentProcessor(path=dir_path)
+document_ext = processor.process()
+pdf_meta = processor.pdf_metadata
 
-    processor = DocumentProcessor(chunk_size=500, chunk_overlap=100)
+print("\nSTEP 2. Meta Extraction")
 
-    paper, chunks = processor.process(
-        file_path="attention_all_you_need.pdf",
-        paper_id="ATTN_2017_001",
-        title="Attention Is All You Need",
-        authors=["Ashish Vaswani", "Noam Shazeer", "Niki Parmar"],
-        year=2017,
-        venue="NeurIPS",
-        keywords=["transformer", "attention"]
-    )
+meta_extract = MetaExtraction(pdf_meta,document_ext)
+document = meta_extract.update_metadata()
+# print(document[0].metadata)
 
-    print(f"Document processed into {len(chunks)} chunks")
+print("\nSTEP 3. Chunking document")
+chunk_prosessor = Chunking(document=document)
+chunk = chunk_prosessor.intiate_chunk()
+print("\nSTEP 4. Embedding document")
+embed = EmbeddingManager()
+vs_man = VectorStoreManager()
+vs_man.create_from_documents(chunk)
 
-    print("\nSTEP 2. Creating embedding manager")
+rag = RAGChain(vs_man)
 
-    embedder = embeddingmanager(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+result = rag.query("explain the attension mechanism in transformer")
 
-    print("Embedding model loaded:")
-    print(f"Model name: {embedder.model_name}")
-    print(f"Embedding dimension: {embedder.get_embedding_dimension()}")
+print(result["answer"])
+print("="*70)
+print(f"Sources: {result['sources']}")
 
-    print("\nSTEP 3. Converting chunks to LangChain Documents")
+db_path = "data/sqlite_db/research_papers.db"
 
-    documents = DocumentAdapter.chunks_to_documents(
-        chunks
-    )
+print("\n print the table in db")
 
-    print("\nSTEP 4. Building vector store")
-
-    vs_manager = vectorstoremanager(embedding_manager=embedder)
-    vs_manager.create_from_documents(documents)
-
-    print(f"Vector store created with {len(documents)} documents")
-
-    print("\nSTEP 5. Semantic search (top-3)")
-
-    test_queries = [
-        "What is the main idea of the transformer?",
-        "How does attention work in this paper?",
-        "What experiments were conducted?"
-    ]
-
-    for query in test_queries:
-        print(f"\nQuery: {query}")
-
-        results = vs_manager.serch(query, k=3)
-
-        for doc in results:
-            print("=" * 70)
-            print("SECTION:", doc.metadata.get("section"))
-            print(doc.page_content[:400])
-            print("=" * 70)
-
-
-    print("\nSTEP 6. Saving vector store")
-
-    vs_manager.save()
-    print(f"Vector store saved to {vs_manager.index_path}")
-
-
-    print("\nSTEP 7. Loading vector store and re-testing")
-
-    vs_loader = vectorstoremanager(embedding_manager=embedder)
-    vs_loader.load()
-
-    retriever = vs_loader.get_retriever(k=3)
-
-    test_results = retriever.invoke(
-        "Explain the attention mechanism used in the transformer"
-    )
-
-    print("\nTest search after loading vector store:")
-
-    for r in test_results:
-        print("=" * 70)
-        print("SECTION:", r.metadata.get("section"))
-        print(r.page_content[:400])
-        print("=" * 70)
-
-
-if __name__ == "__main__":
-    main()
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM research_papers")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)

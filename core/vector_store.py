@@ -1,23 +1,23 @@
-from core.embedding import embeddingmanager
+from core.embedding import EmbeddingManager
 from langchain_community.vectorstores import FAISS
 from typing import List,Optional
 from config.settings import settings
 from langchain_core.documents import Document
 import os
 
-class vectorstoremanager:
+class VectorStoreManager:
     """
     Manages a FAISS vector store for document embeddings.
     """
     
-    def __init__(self,embedding_manager:embeddingmanager=None):
+    def __init__(self,embedding_manager:EmbeddingManager=None):
         """
         Initialize the VectorStoreManager with an embedding manager.
         Args:
-        embedding_manager (embeddingmanager, optional): An embedding manager instance. Defaults to None.
+        embedding_manager (EmbeddingManager, optional): An embedding manager instance. Defaults to None.
         """
 
-        self.embedding_manager=embedding_manager or embeddingmanager()
+        self.embedding_manager=embedding_manager or EmbeddingManager()
         self._vector_store:Optional[FAISS]=None
         # self.index_path=settings.FAST_INDEX_PATH 
         self.index_path="data/faiss_index"
@@ -40,7 +40,7 @@ class vectorstoremanager:
         """
         return self._vector_store is not None
     
-    def create_from_documents(self,documents:List[Document])->FAISS:
+    def create_from_documents(self,documents:List[Document]):
         """
         create a new vector store from documents
         Args:
@@ -64,7 +64,7 @@ class vectorstoremanager:
         else:
             self._vector_store.add_documents(documents)
         
-    def serch(self,query:str,k:int=None)->List[Document]:  
+    def search(self,query:str,k:int=None)->List[Document]:  
         """
         search the vector store for similar documents
         Args:

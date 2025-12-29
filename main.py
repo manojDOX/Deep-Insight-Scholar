@@ -1,6 +1,11 @@
-def main():
-    print("Hello from deep-insight-scholar!")
+import streamlit as st
+from utils.session import init_session
+from ui.layout import render_layout
 
+st.set_page_config(
+    page_title="Research Paper Intelligence System",
+    layout="wide"
+)
 
-if __name__ == "__main__":
-    main()
+init_session()
+render_layout()
