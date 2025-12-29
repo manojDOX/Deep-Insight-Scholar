@@ -1,5 +1,9 @@
 # Deep Insight Scholar
 
+Name: Manoj B
+
+Email: manoj2882003@gmail.com
+
 ## Design Overview
 
 The system is designed to be modular, with clear separations of concern across modules. The core preprocessing pipeline is divided into four main stages:
