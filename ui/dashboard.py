@@ -80,7 +80,7 @@ def render_dashboard():
     st.subheader("📄 Paper Details")
 
     st.write(f"**Title:** {paper.get('title')}")
-    st.write(f"**Authors:** {'\n '.join(paper.get('authors', []))}")
+    st.write(f"**Authors:** {', '.join(paper.get('authors', []))}")
     st.write(f"**Year:** {paper.get('year')}")
     st.write(f"**Venue:** {paper.get('venue')}")
 
