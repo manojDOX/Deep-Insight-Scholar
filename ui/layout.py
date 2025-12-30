@@ -4,16 +4,20 @@ from ui.dashboard import render_dashboard
 from ui.chat import render_chat
 
 def render_layout():
-    st.sidebar.title("📘 Research Assistant")
+    st.title("📘 Research Assistant")
 
-    section = st.sidebar.radio(
-        "Navigate",
-        ["Load Papers", "Paper Library", "Chat Assistant"]
-    )
+    tab1, tab2, tab3 = st.tabs([
+        "📥 Load Papers",
+        "📚 Paper Library",
+        "💬 Chat Assistant"
+    ])
 
-    if section == "Load Papers":
+    with tab1:
         render_ingestion()
-    elif section == "Paper Library":
+
+    with tab2:
         render_dashboard()
-    else:
+
+    with tab3:
         render_chat()
+

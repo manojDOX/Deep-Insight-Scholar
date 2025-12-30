@@ -116,21 +116,25 @@ class RAGChain:
         
         return "\n\n".join(context_parts)
     
-    def retrieve(self, query: str, k: int = None) -> List[Document]:
-        """
-        Retrieve relevant documents for a query.
-        
-        Args:
-            query: User's question
-            k: Number of documents to retrieve
-            
-        Returns:
-            List of relevant documents
-        """
-        if not self.vector_store.is_initialized:
+    def retrieve(
+        self,
+        query: str,
+        k: int = None,
+        metadata_filter: dict | None = None
+    ) -> List[Document]:
+
+        if not self.vector_store.is_initialized():
             return []
-    
+
+        if metadata_filter:
+            retriever = self.vector_store.get_retriever(
+                k=k,
+                metadata_filter=metadata_filter
+            )
+            return retriever.invoke(query)
+
         return self.vector_store.search(query=query, k=k)
+
     
     def generate(self, query: str, context: str) -> str:
         """
@@ -175,7 +179,7 @@ class RAGChain:
         }):
             yield chunk
     
-    def query(self, question: str, k: int = None) -> dict:
+    def query(self, question: str,metadata_filter:dict | None, k: int = None) -> dict:
         """
         Complete RAG pipeline: retrieve and generate.
         
@@ -187,8 +191,8 @@ class RAGChain:
             Dictionary with 'answer', 'sources', and 'context'
         """
         # Step 1: Retrieve relevant documents
-        documents = self.retrieve(question, k=k)
-        
+        documents = self.retrieve(question, k=k,metadata_filter=metadata_filter)
+        print(documents)
         # Step 2: Format context
         context = self._format_context(documents)
         
@@ -196,9 +200,7 @@ class RAGChain:
         answer = self.generate(question, context)
         
         # Extract sources
-        print(documents[0].metadata)
         sources = [doc.metadata.get("title", "Unknown") for doc in documents]
-        print(sources)
         return {
             "answer": answer,
             "sources": list(set(sources)),  # Unique sources

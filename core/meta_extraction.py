@@ -44,21 +44,21 @@ class MetaExtraction:
             (
                 "system",
                 """Extract structured information from the given research paper.
-In summary, rewrite the content in a clear, concise, and easy-to-read academic style.
+                In summary, rewrite the content in a clear, concise, and easy-to-read academic style.
 
-Instructions:
-- Use simple and formal academic language
-- Avoid unnecessary jargon and repetition
-- Keep sentences short and well structured
-- Preserve the original meaning and technical accuracy
-- Do NOT introduce new information
-- Present the summary as a coherent paragraph
+                Instructions for summary:
+                - Use simple and formal academic language
+                - Avoid unnecessary jargon and repetition
+                - Keep sentences short and well structured
+                - Preserve the original meaning and technical accuracy
+                - Do NOT introduce new information
+                - Present the summary as a coherent paragraph
 
-The output should be suitable for:
-- Research paper summaries
-- Academic dashboards
-- Structured information storage
-"""
+                The output should be suitable for:
+                - Research paper summaries
+                - Academic dashboards
+                - Structured information storage
+                """
             ),
             ("human", INFO_PDF)
         ])

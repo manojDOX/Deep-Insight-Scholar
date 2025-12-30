@@ -1,5 +1,6 @@
 import streamlit as st
 from services.paper_service import PaperService
+from ui.chat import render_chat
 
 
 def render_dashboard():
@@ -79,9 +80,31 @@ def render_dashboard():
     st.subheader("📄 Paper Details")
 
     st.write(f"**Title:** {paper.get('title')}")
-    st.write(f"**Authors:** {', '.join(paper.get('authors', []))}")
+    st.write(f"**Authors:** {'\n '.join(paper.get('authors', []))}")
     st.write(f"**Year:** {paper.get('year')}")
     st.write(f"**Venue:** {paper.get('venue')}")
 
     st.subheader("🧠 Summary")
-    st.write(paper.get("summary"))
+    st.write(' '.join(paper.get("summary",[])))
+    st.divider()
+
+    if st.button("💬 Ask about this paper"):
+        st.session_state.focus_chat = True
+        st.session_state.active_paper_title = paper["title"]
+
+    if st.session_state.get("focus_chat"):
+        if st.button("❌ Close paper chat"):
+            st.session_state.focus_chat = False
+            st.session_state.pop("active_paper_title", None)
+            st.rerun()
+    
+    if st.session_state.get("focus_chat"):
+        st.divider()
+        st.subheader(
+            f"💬 Focus chat for: {st.session_state.active_paper_title}"
+        )
+        render_chat(scoped=True)
+
+
+
+

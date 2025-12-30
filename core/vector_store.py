@@ -3,6 +3,7 @@ from langchain_community.vectorstores import FAISS
 from typing import List,Optional
 from config.settings import settings
 from langchain_core.documents import Document
+from langchain_core.retrievers import BaseRetriever
 import os
 
 class VectorStoreManager:
@@ -107,17 +108,29 @@ class VectorStoreManager:
         )
         return self._vector_store
 
-    def get_retriever(self,k:int=None):
+    def get_retriever(self, k: int = None, metadata_filter: dict | None = None)->BaseRetriever:
         """
-        get a retriver from the vector store
+        Get a retriever from the vector store.
         Args:
-        k: number of top results to retrieve
-        returns: retriver object compitable with langchain
+            k: number of top results to retrieve
+            metadata_filter: optional metadata filter (e.g. {"title": "paper name"})
+        Returns:
+            Retriever object compatible with LangChain
         """
         if not self.is_initialized():
             raise ValueError("Vector store is not initialized")
+
         k = k or settings.TOP_K_RESULTS
-        return self._vector_store.as_retriever(search_type="similarity",search_kwargs={"k":k})
+        search_kwargs = {"k": k}
+
+        if metadata_filter:
+            search_kwargs["filter"] = metadata_filter
+
+        return self._vector_store.as_retriever(
+            search_type="similarity",
+            search_kwargs=search_kwargs
+        )
+
     def clear(self)->None:
         self._vector_store=None
 
