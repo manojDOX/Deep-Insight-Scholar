@@ -192,7 +192,6 @@ class RAGChain:
         """
         # Step 1: Retrieve relevant documents
         documents = self.retrieve(question, k=k,metadata_filter=metadata_filter)
-        print(documents)
         # Step 2: Format context
         context = self._format_context(documents)
         

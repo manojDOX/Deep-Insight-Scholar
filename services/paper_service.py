@@ -1,20 +1,30 @@
+# services/paper_service.py
+
 from typing import List, Dict, Tuple, Optional
-import streamlit as st
+from pathlib import Path
+import json
+
+
+METADATA_PATH = Path("data/metadata/metadata.json")
 
 
 class PaperService:
     """
-    Reads and filters paper metadata from Streamlit session memory.
-    Data source: st.session_state.paper_metadata_store
+    Reads and filters paper metadata from persisted JSON storage.
+    Data source: data/metadata/metadata.json
     """
 
     @staticmethod
     def fetch_all() -> List[Dict]:
         """
-        Fetch all papers from session memory.
-        Returns empty list if no papers exist.
+        Fetch all papers from metadata.json.
+        Returns empty list if file does not exist.
         """
-        return st.session_state.get("paper_metadata_store", [])
+        if not METADATA_PATH.exists():
+            return []
+
+        with open(METADATA_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
 
     @staticmethod
     def get_years(papers: List[Dict]) -> List[int]:
@@ -33,18 +43,9 @@ class PaperService:
     ) -> List[Dict]:
         """
         Filter papers by year range and keyword.
-
-        Args:
-            papers: List of paper dictionaries
-            year_range: (min_year, max_year)
-            keyword: keyword to search in title, summary, or keywords
-
-        Returns:
-            Filtered list of papers
         """
         filtered = papers
 
-        # ✅ Year filter
         if year_range:
             min_year, max_year = year_range
             filtered = [
@@ -53,7 +54,6 @@ class PaperService:
                 and min_year <= p["year"] <= max_year
             ]
 
-        # ✅ Keyword filter
         if keyword:
             kw = keyword.lower()
             filtered = [

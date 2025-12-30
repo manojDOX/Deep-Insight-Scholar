@@ -19,5 +19,6 @@ class Settings:
     GROQ_API_KEY:str=str(os.getenv("GROQ_API_KEY"))
     TEMPRATURE:int=int(os.getenv("TEMPRATURE"))
     TAVILY_API_KEY:str=str(os.getenv("TAVILY_API_KEY"))
+    METADATA_FILE:str=str(os.getenv("METADATA_FILE"))
 
 settings = Settings()

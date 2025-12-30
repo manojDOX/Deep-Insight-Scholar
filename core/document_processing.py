@@ -69,7 +69,9 @@ class DocumentProcessor:
                         page_dict[pattern]=curr_pos+text_list[curr_pos:].index(pattern)
                         curr_pos = page_dict[pattern]
                         break
+        print(page_dict)
         return page_dict
+    
         
 
     def _document_prep(self,page_dict:Dict,text_list:List[str])->List[Document]:

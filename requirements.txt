@@ -29,3 +29,5 @@ watchdog
 
 # For loading .env files
 dotenv
+
+plotly

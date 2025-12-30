@@ -1,0 +1,801 @@
+[
+  {
+    "paper_id": "arxiv 1706.03762v7",
+    "title": "Attention Is All You Need",
+    "authors": [
+      "Ashish Vaswani",
+      "Noam Shazeer",
+      "Niki Parmar",
+      "Jakob Uszkoreit",
+      "Llion Jones",
+      "Aidan N. Gomez",
+      "Łukasz Kaiser",
+      "Illia Polosukhin"
+    ],
+    "year": 2017,
+    "venue": "31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA",
+    "keywords": [
+      "Transformer",
+      "Attention Mechanism",
+      "Sequence Transduction",
+      "Machine Translation",
+      "Parallelization"
+    ],
+    "summary": [
+      "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks",
+      "We propose a new simple network architecture, the transformer, based solely on attention mechanisms",
+      "The transformer allows for significantly more parallelization and can reach a new state of the art in translation quality",
+      "Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task",
+      "Our model establishes a new single-model state-of-the-art BLEU score of 41.8 on the WMT 2014 English-to-French translation task",
+      "The transformer generalizes well to other tasks by applying it successfully to English constituency parsing"
+    ]
+  },
+  {
+    "paper_id": "2511.08923v1",
+    "title": "TiDAR: Think in Diffusion, Talk in Autoregression",
+    "authors": [
+      "Jingyu Liu",
+      "Xin Dong",
+      "Zhifan Ye",
+      "Rishabh Mehta",
+      "Yonggan Fu",
+      "Vartika Singh",
+      "Jan Kautz",
+      "Ce Zhang",
+      "Pavlo Molchanov"
+    ],
+    "year": 2025,
+    "venue": "arXiv",
+    "keywords": [
+      "language models",
+      "autoregressive models",
+      "diffusion models",
+      "parallel decoding",
+      "artificial general intelligence"
+    ],
+    "summary": [
+      "TiDAR is a sequence-level hybrid architecture that combines the strengths of autoregressive and diffusion models",
+      "TiDAR achieves a strong balance between drafting and verification capacity",
+      "TiDAR outperforms speculative decoding in measured throughput and surpasses diffusion models in both efficiency and quality",
+      "TiDAR closes the quality gap with autoregressive models while delivering 4.71× to 5.91× more tokens per second",
+      "TiDAR is designed to be serving-friendly with low overhead as a standalone model"
+    ]
+  },
+  {
+    "paper_id": "arXiv:1810.04805v2",
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "authors": [
+      "Jacob Devlin",
+      "Ming-Wei Chang",
+      "Kenton Lee",
+      "Kristina Toutanova"
+    ],
+    "year": 2019,
+    "venue": "Association for Computational Linguistics",
+    "keywords": [
+      "BERT",
+      "Bidirectional Encoder Representations from Transformers",
+      "Language Understanding",
+      "Deep Learning"
+    ],
+    "summary": [
+      "BERT is a new language representation model that uses a multi-layer bidirectional transformer encoder to generate contextualized representations.",
+      "BERT is pre-trained using a masked language model objective and a next sentence prediction task.",
+      "BERT can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks.",
+      "BERT obtains new state-of-the-art results on eleven natural language processing tasks.",
+      "BERT is conceptually simple and empirically powerful.",
+      "The pre-trained BERT model can be fine-tuned with minimal task-specific architecture modifications."
+    ]
+  },
+  {
+    "paper_id": "1906.08237v2",
+    "title": "XLNet: Generalized Autoregressive Pretraining for Language Understanding",
+    "authors": [
+      "Zhilin Yang",
+      "Zihang Dai",
+      "Yiming Yang",
+      "Jaime Carbonell",
+      "Ruslan Salakhutdinov",
+      "Quoc V. Le"
+    ],
+    "year": 2019,
+    "venue": "NeurIPS 2019",
+    "keywords": [
+      "XLNet",
+      "Autoregressive Pretraining",
+      "Language Understanding"
+    ],
+    "summary": [
+      "XLNet is a generalized autoregressive pretraining method that enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order.",
+      "XLNet overcomes the limitations of BERT thanks to its autoregressive formulation.",
+      "XLNet integrates ideas from Transformer-XL into pretraining.",
+      "XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.",
+      "XLNet does not rely on data corruption and does not suffer from the pretrain-finetune discrepancy.",
+      "XLNet provides a natural way to use the product rule for factorizing the joint probability of the predicted tokens."
+    ]
+  },
+  {
+    "paper_id": "arXiv:1810.04805",
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "authors": [
+      "Jacob Devlin",
+      "Ming-Wei Chang",
+      "Kenton Lee",
+      "Kristina Toutanova"
+    ],
+    "year": 2018,
+    "venue": "NAACL",
+    "keywords": [
+      "language understanding",
+      "bidirectional transformers",
+      "pre-training"
+    ],
+    "summary": [
+      "Problem statement: Existing language representation models are limited by their focus on unidirectional representations.",
+      "Proposed approach: Introduce BERT, a new language representation model that uses bidirectional transformers to pre-train deep representations.",
+      "Key findings: BERT achieves state-of-the-art results on a wide range of NLP tasks, including GLUE, SQuAD, and SWAG.",
+      "Implications: BERT demonstrates the effectiveness of deep bidirectional representations for language understanding.",
+      "Future work: Explore the application of BERT to other NLP tasks and domains.",
+      "Methodology: BERT uses a multi-task learning approach, with two pre-training tasks: masked language modeling and next sentence prediction."
+    ]
+  },
+  {
+    "paper_id": "arXiv:1906.08237",
+    "title": "XLNet: Generalized Autoregressive Pretraining for Language Understanding",
+    "authors": [
+      "Zhilin Yang",
+      "Zihang Dai",
+      "Yiming Yang",
+      "Jaime Carbonell",
+      "Ruslan Salakhutdinov",
+      "Quoc V. Le"
+    ],
+    "year": 2019,
+    "venue": "NeurIPS",
+    "keywords": [
+      "language understanding",
+      "autoregressive pretraining",
+      "transformer-xl"
+    ],
+    "summary": [
+      "The paper proposes a new pretraining method called XLNet, which combines the advantages of autoregressive and autoencoding methods.",
+      "XLNet uses a permutation language modeling objective to train the model.",
+      "The model is based on the Transformer-XL architecture and uses a two-stream attention mechanism.",
+      "XLNet outperforms BERT and other state-of-the-art models on a range of tasks, including question answering, sentiment analysis, and document ranking.",
+      "The paper also presents an ablation study to analyze the importance of different components of XLNet.",
+      "The results show that XLNet is a robust and effective model for language understanding tasks."
+    ]
+  },
+  {
+    "paper_id": "arXiv:2005.14165v4",
+    "title": "Language Models are Few-Shot Learners",
+    "authors": [
+      "Tom B. Brown",
+      "Benjamin Mann",
+      "Nick Ryder",
+      "Melanie Subbiah",
+      "Jared Kaplan",
+      "Prafulla Dhariwal",
+      "Arvind Neelakantan",
+      "Pranav Shyam",
+      "Girish Sastry",
+      "Amanda Askell",
+      "Sandhini Agarwal",
+      "Ariel Herbert-Voss",
+      "Gretchen Krueger",
+      "Tom Henighan",
+      "Rewon Child",
+      "Aditya Ramesh",
+      "Daniel M. Ziegler",
+      "Jeffrey Wu",
+      "Clemens Winter",
+      "Christopher Hesse",
+      "Mark Chen",
+      "Eric Sigler",
+      "Mateusz Litwin",
+      "Scott Gray",
+      "Benjamin Chess",
+      "Jack Clark",
+      "Christopher Berner",
+      "Alec Radford",
+      "Ilya Sutskever",
+      "Dario Amodei"
+    ],
+    "year": 2020,
+    "venue": "arXiv",
+    "keywords": [
+      "language models",
+      "few-shot learning",
+      "autoregressive models",
+      "natural language processing"
+    ],
+    "summary": [
+      "Problem statement: Current language models require task-specific fine-tuning datasets to perform well on many NLP tasks.",
+      "Proposed approach: Scaling up language models to improve task-agnostic, few-shot performance.",
+      "The authors train a 175 billion parameter language model, GPT-3, and test its performance in the few-shot setting.",
+      "GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks.",
+      "The authors also identify some datasets where GPT-3’s few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora."
+    ]
+  },
+  {
+    "paper_id": "arXiv 1810.04805v2",
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "authors": [
+      "Jacob Devlin",
+      "Ming-Wei Chang",
+      "Kenton Lee",
+      "Kristina Toutanova"
+    ],
+    "year": 2019,
+    "venue": "arXiv",
+    "keywords": [
+      "BERT",
+      "Bidirectional Transformers",
+      "Language Understanding"
+    ],
+    "summary": [
+      "Problem statement: Current language models are unidirectional and limit the power of pre-trained representations.",
+      "Proposed approach: BERT uses a masked language model pre-training objective to enable deep bidirectional representations.",
+      "State-of-the-art results on eleven NLP tasks",
+      "Advances the state of the art for sentence-level and token-level tasks",
+      "Pre-trained representations reduce the need for many heavily-engineered task-specific architectures",
+      "Code and pre-trained models are available at https://github.com/google-research/bert"
+    ]
+  },
+  {
+    "paper_id": "arxiv 1810.04805v2",
+    "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "authors": [
+      "Jacob Devlin",
+      "Ming-Wei Chang",
+      "Kenton Lee",
+      "Kristina Toutanova"
+    ],
+    "year": 2019,
+    "venue": "ArXiv",
+    "keywords": [
+      "BERT",
+      "Language Understanding",
+      "Deep Bidirectional Transformers"
+    ],
+    "summary": [
+      "Problem statement: Current language models are unidirectional and limit the power of pre-trained representations.",
+      "Proposed approach: BERT uses a masked language model pre-training objective to enable deep bidirectional representations."
+    ]
+  },
+  {
+    "paper_id": "2005.14165v4",
+    "title": "Language Models are Few-Shot Learners",
+    "authors": [
+      "Tom B. Brown",
+      "Benjamin Mann",
+      "Nick Ryder",
+      "Melanie Subbiah",
+      "Jared Kaplan",
+      "Prafulla Dhariwal",
+      "Arvind Neelakantan",
+      "Pranav Shyam",
+      "Girish Sastry",
+      "Amanda Askell",
+      "Sandhini Agarwal",
+      "Ariel Herbert-Voss",
+      "Gretchen Krueger",
+      "Tom Henighan",
+      "Rewon Child",
+      "Aditya Ramesh",
+      "Daniel M. Ziegler",
+      "Jeffrey Wu",
+      "Clemens Winter",
+      "Christopher Hesse",
+      "Mark Chen",
+      "Eric Sigler",
+      "Mateusz Litwin",
+      "Scott Gray",
+      "Benjamin Chess",
+      "Jack Clark",
+      "Christopher Berner",
+      "Sam McCandlish",
+      "Alec Radford",
+      "Ilya Sutskever",
+      "Dario Amodei"
+    ],
+    "year": 2020,
+    "venue": "arXiv",
+    "keywords": [
+      "language models",
+      "few-shot learning",
+      "GPT-3"
+    ],
+    "summary": [
+      "Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task.",
+      "Humans can generally perform a new language task from only a few examples or from simple instructions, which current NLP systems still largely struggle to do.",
+      "GPT-3, an autoregressive language model with 175 billion parameters, is trained and tested in the few-shot setting.",
+      "GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks.",
+      "GPT-3 can generate samples of news articles which human evaluators have difficulty distinguishing from articles written by humans."
+    ]
+  },
+  {
+    "paper_id": "arxiv:2010.11929v2",
+    "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+    "authors": [
+      "Alexey Dosovitskiy",
+      "Lucas Beyer",
+      "Alexander Kolesnikov",
+      "Dirk Weissenborn",
+      "Xiaohua Zhai",
+      "Thomas Unterthiner",
+      "Mostafa Dehghani",
+      "Matthias Minderer",
+      "Georg Heigold",
+      "Sylvain Gelly",
+      "Jakob Uszkoreit",
+      "Neil Houlsby"
+    ],
+    "year": 2021,
+    "venue": "ICLR",
+    "keywords": [
+      "Transformers",
+      "Image Recognition",
+      "Computer Vision",
+      "Self-Attention"
+    ],
+    "summary": [
+      "Problem statement: The transformer architecture has become the de-facto standard for natural language processing tasks, but its applications to computer vision remain limited.",
+      "Proposed approach: Applied a standard transformer directly to images, with the fewest possible modifications.",
+      "The model is trained on image classification in a supervised fashion.",
+      "The vision transformer (ViT) attains excellent results when pre-trained at sufficient scale and transferred to tasks with fewer data points.",
+      "The best model reaches the accuracy of 88.55% on ImageNet, 90.72% on ImageNet-Real, 94.55% on CIFAR-100, and 77.63% on the VTAB suite of 19 tasks.",
+      "The vision transformer (ViT) is compared to state-of-the-art convolutional networks and requires substantially fewer computational resources to train."
+    ]
+  },
+  {
+    "paper_id": "arXiv:2103.00020v1",
+    "title": "Learning Transferable Visual Models from Natural Language Supervision",
+    "authors": [
+      "Alec Radford",
+      "Jong Wook Kim",
+      "Chris Hallacy",
+      "Aditya Ramesh",
+      "Gabriel Goh",
+      "Sandhini Agarwal",
+      "Girish Sastry",
+      "Amanda Askell",
+      "Pamela Mishkin",
+      "Jack Clark",
+      "Gretchen Krueger",
+      "Ilya Sutskever"
+    ],
+    "year": 2021,
+    "venue": "arXiv",
+    "keywords": [
+      "Natural Language Supervision",
+      "Visual Models",
+      "Transfer Learning",
+      "Computer Vision"
+    ],
+    "summary": [
+      "State-of-the-art computer vision systems are limited by their reliance on predetermined object categories.",
+      "Learning directly from raw text about images is a promising alternative.",
+      "The authors demonstrate that predicting which caption goes with which image is an efficient way to learn image representations from scratch.",
+      "The model transfers non-trivially to most tasks and is often competitive with a fully supervised baseline without the need for dataset-specific training.",
+      "The authors release their code and pre-trained model weights.",
+      "The approach is scalable and can be applied to a wide range of computer vision tasks."
+    ]
+  },
+  {
+    "paper_id": "2201.11903v6",
+    "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "authors": [
+      "Jason Wei",
+      "Xuezhi Wang",
+      "Dale Schuurmans",
+      "Maarten Bosma",
+      "Brian Ichter",
+      "Fei Xia",
+      "Ed H. Chi",
+      "Quoc V. Le",
+      "Denny Zhou"
+    ],
+    "year": 2022,
+    "venue": "36th Conference on Neural Information Processing Systems (Neurips 2022)",
+    "keywords": [
+      "chain-of-thought prompting",
+      "large language models",
+      "reasoning",
+      "arithmetic",
+      "commonsense",
+      "symbolic reasoning"
+    ],
+    "summary": [
+      "Chain-of-thought prompting improves the reasoning ability of large language models",
+      "This method involves providing a few chain of thought demonstrations as exemplars in prompting",
+      "Experiments show that chain-of-thought prompting outperforms standard prompting on arithmetic, commonsense, and symbolic reasoning tasks",
+      "The approach achieves state-of-the-art performance on the GSM8K benchmark of math word problems",
+      "Chain-of-thought prompting enables large language models to tackle complex reasoning tasks"
+    ]
+  },
+  {
+    "paper_id": "arxiv 2302.13971v1",
+    "title": "Llama: Open and Efficient Foundation Language Models",
+    "authors": [
+      "Hugo Touvron",
+      "Thibaut Lavril",
+      "Gautier Izacard",
+      "Xavier Martinet",
+      "Marie-Anne Lachaux",
+      "Timothee Lacroix",
+      "Baptiste Rozière",
+      "Naman Goyal",
+      "Eric Hambro",
+      "Faisal Azhar",
+      "Aurelien Rodriguez",
+      "Armand Joulin",
+      "Edouard Grave",
+      "Guillaume Lample"
+    ],
+    "year": 2023,
+    "venue": "ArXiv",
+    "keywords": [
+      "Foundation Language Models",
+      "Efficient Training",
+      "Publicly Available Data",
+      "Large Language Models"
+    ],
+    "summary": [
+      "Problem statement: The need for efficient and open foundation language models",
+      "Proposed approach: Training language models on publicly available data with a focus on inference budget"
+    ]
+  },
+  {
+    "paper_id": "arXiv:2307.09288v2",
+    "title": "Llama 2: Pretrained and Fine-Tuned Large Language Models",
+    "authors": [
+      "Hugo Touvron",
+      "Louis Martin",
+      "Kevin Stone",
+      "Peter Albert",
+      "Amjad Almahairi",
+      "Yasmine Babaei",
+      "Nikolay Bashlykov",
+      "Soumya Batra",
+      "Prajjwal Bhargava",
+      "Shruti Bhosale",
+      "Dan Bikel",
+      "Lukas Blecher",
+      "Cristian Canton Ferrer",
+      "Moya Chen",
+      "Guillem Cucurull",
+      "David Esiobu",
+      "Jude Fernandes",
+      "Jeremy Fu",
+      "Wenyin Fu",
+      "Brian Fuller",
+      "Cynthia Gao",
+      "Vedanuj Goswami",
+      "Naman Goyal",
+      "Anthony Hartshorn",
+      "Saghar Hosseini",
+      "Rui Hou",
+      "Hakan Inan",
+      "Marcin Kardas",
+      "Viktor Kerkez",
+      "Madian Khabsa",
+      "Isabel Kloumann",
+      "Artem Korenev",
+      "Punit Singh Koura",
+      "Marie-Anne Lachaux",
+      "Thibaut Lavril",
+      "Jenya Lee",
+      "Diana Liskovich",
+      "Yinghai Lu",
+      "Yuning Mao",
+      "Xavier Martinet",
+      "Todor Mihaylov",
+      "Pushkar Mishra",
+      "Igor Molybog",
+      "Yixin Nie",
+      "Andrew Poulton",
+      "Jeremy Reizenstein",
+      "Rashi RunGta",
+      "Kalyan Saladi",
+      "Alan Schelten",
+      "Ruan Silva",
+      "Eric Michael Smith",
+      "Ranjan Subramanian",
+      "Xiaoqing Ellen Tan",
+      "Binh Tang",
+      "Ross Taylor",
+      "Adina Williams",
+      "Jian Xiang",
+      "Kuan Puxin Xu",
+      "Zheng Yan",
+      "Iliyan Zarov",
+      "Yuchen Zhang",
+      "Angela Fan",
+      "Melanie Kambadur",
+      "Sharan Narang",
+      "Aurelien Rodriguez",
+      "Robert Stojnic",
+      "Sergey Edunov",
+      "Thomas Scialom"
+    ],
+    "year": 2023,
+    "venue": "arXiv",
+    "keywords": [
+      "Large Language Models",
+      "Pretrained Models",
+      "Fine-Tuned Models",
+      "Chat Models",
+      "Dialogue Use Cases"
+    ],
+    "summary": [
+      "Problem statement: Developing large language models that excel in complex reasoning tasks and interact with humans through intuitive chat interfaces.",
+      "Proposed approach: Pretraining and fine-tuning large language models using techniques such as reinforcement learning with human feedback.",
+      "The Llama 2 models outperform open-source chat models on most benchmarks.",
+      "The models are optimized for dialogue use cases and may be a suitable substitute for closed-source models.",
+      "The paper provides a detailed description of the approach to fine-tuning and safety improvements.",
+      "The models are evaluated using human evaluations and a more capable model, GPT-4."
+    ]
+  },
+  {
+    "paper_id": "arxiv submit/4812508",
+    "title": "GPT-4 Technical Report",
+    "authors": [
+      "OpenAI"
+    ],
+    "year": 2023,
+    "venue": "arXiv",
+    "keywords": [
+      "GPT-4",
+      "multimodal model",
+      "transformer-based model",
+      "natural language processing"
+    ],
+    "summary": [
+      "GPT-4 is a large-scale, multimodal model that can accept image and text inputs and produce text outputs.",
+      "GPT-4 exhibits human-level performance on various professional and academic benchmarks.",
+      "GPT-4 was evaluated on a variety of exams originally designed for humans and performs quite well.",
+      "GPT-4 outperforms previous large language models and most state-of-the-art systems on traditional NLP benchmarks.",
+      "GPT-4 has similar limitations to earlier GPT models, including being not fully reliable and having a limited context window.",
+      "The development of GPT-4 required significant advancements in deep learning infrastructure and optimization methods."
+    ]
+  },
+  {
+    "paper_id": "arXiv:2010.11929v2",
+    "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+    "authors": [
+      "Alexey Dosovitskiy",
+      "Lucas Beyer",
+      "Alexander Kolesnikov",
+      "Dirk Weissenborn",
+      "Xiaohua Zhai",
+      "Thomas Unterthiner",
+      "Mostafa Dehghani",
+      "Matthias Minderer",
+      "Georg Heigold",
+      "Sylvain Gelly",
+      "Jakob Uszkoreit",
+      "Neil Houlsby"
+    ],
+    "year": 2021,
+    "venue": "ICLR 2021",
+    "keywords": [
+      "Transformers",
+      "Image Recognition",
+      "Computer Vision"
+    ],
+    "summary": [
+      "The paper proposes a new approach to image recognition using transformers.",
+      "The transformer architecture is applied directly to sequences of image patches.",
+      "The model is trained on large amounts of data and achieves excellent results on multiple image recognition benchmarks.",
+      "The approach is compared to state-of-the-art convolutional networks and requires substantially fewer computational resources to train.",
+      "The paper also discusses related work and the implications of the results for the field of computer vision."
+    ]
+  },
+  {
+    "paper_id": "2302.13971v1",
+    "title": "Llama: Open and Efficient Foundation Language Models",
+    "authors": [
+      "Hugo Touvron",
+      "Thibaut Lavril",
+      "Gautier Izacard",
+      "Xavier Martinet",
+      "Marie-Anne Lachaux",
+      "Timothee Lacroix",
+      "Baptiste Roziere",
+      "Naman Goyal",
+      "Eric Hambro",
+      "Faisal Azhar",
+      "Aurelien Rodriguez",
+      "Armand Joulin",
+      "Edouard Grave",
+      "Guillaume Lample"
+    ],
+    "year": 2023,
+    "venue": "arXiv",
+    "keywords": [
+      "foundation language models",
+      "efficiency",
+      "publicly available datasets"
+    ],
+    "summary": [
+      "Introduction of Llama, a collection of foundation language models ranging from 7B to 65B parameters",
+      "Trained on trillions of tokens using publicly available datasets",
+      "Llama-13B outperforms GPT-3 on most benchmarks",
+      "Llama-65B is competitive with the best models, Chinchilla-70B and Palm-540B",
+      "Release of all models to the research community",
+      "Modification of the transformer architecture and training method"
+    ]
+  },
+  {
+    "paper_id": "2307.09288v2",
+    "title": "LLaMA 2: Open and Fine-Tuned Language Models",
+    "authors": [
+      "Hugo Touvron",
+      "Louis Martin",
+      "Kevin Stone",
+      "Peter Albert",
+      "Amjad Almahairi",
+      "Yasmine Babaei",
+      "Nikolay Bashlykov",
+      "Soumya Batra",
+      "Prajjwal Bhargava",
+      "Shruti Bhosale",
+      "Dan Bikel",
+      "Lukas Blecher",
+      "Cristian Canton",
+      "Ferrer Moya",
+      "Chen Guillem",
+      "Cucurull David",
+      "Esiobu Jude",
+      "Fernandes Jeremy",
+      "Fu Wenyin",
+      "Fu Brian",
+      "Fuller Cynthia",
+      "Gao Vedanuj",
+      "Goswami Naman",
+      "Goyal Anthony",
+      "Hartshorn Saghar",
+      "Hosseini Rui",
+      "Hou Hakan",
+      "Inan Marcin",
+      "Kardas Viktor",
+      "Kerkez Madian",
+      "Khabsa Isabel",
+      "Kloumann Artem",
+      "Korenev Punit",
+      "Singh Koura Marie-Anne",
+      "Lachaux Thibaut",
+      "Lavril Jenya",
+      "Lee Diana",
+      "Liskovich Yinghai",
+      "Lu Yuning",
+      "Mao Xavier",
+      "Martinet Todor",
+      "Mihaylov Pushkar",
+      "Mishra Igor",
+      "Molybog Yixin",
+      "Nie Andrew",
+      "Poulton Jeremy",
+      "Reizenstein Rashi",
+      "Rungta Kalyan",
+      "Saladi Alan",
+      "Schelten Ruan",
+      "Silva Eric",
+      "Smith Ranjan",
+      "Subramanian Xiaoqing",
+      "Tan Binh",
+      "Tang Ross",
+      "Taylor Adina",
+      "Williams Jian",
+      "Xiang Kuan",
+      "Puxin Xu",
+      "Zheng Yan",
+      "Iliyan",
+      "Zarov Yuchen",
+      "Zhang Angela",
+      "Fan Melanie",
+      "Kambadur Sharan",
+      "Narang Aurelien",
+      "Rodriguez Robert",
+      "Stojnic Sergey",
+      "Edunov Thomas",
+      "Scialom"
+    ],
+    "year": 2023,
+    "venue": "arXiv",
+    "keywords": [
+      "Large Language Models",
+      "LLaMA 2",
+      "Fine-Tuned Models",
+      "Chat Models",
+      "Safety Improvements"
+    ],
+    "summary": [
+      "This paper introduces LLaMA 2, a collection of pre-trained and fine-tuned large language models (LLMs) with 7 billion to 70 billion parameters.",
+      "The fine-tuned LLMs, called LLaMA 2-Chat, are optimized for dialogue use cases and outperform open-source chat models on most benchmarks.",
+      "The paper provides a detailed description of the approach to fine-tuning and safety improvements of LLaMA 2-Chat.",
+      "The models are evaluated on human evaluations for helpfulness and safety, and may be a suitable substitute for closed-source models.",
+      "The paper also discusses the limitations and ethical considerations of the models, and proposes a responsible release strategy.",
+      "The LLaMA 2 models are released to enable the community to build on the work and contribute to the responsible development of LLMs."
+    ]
+  },
+  {
+    "paper_id": "arxiv:1706.03762v7",
+    "title": "Attention Is All You Need",
+    "authors": [
+      "Ashish Vaswani",
+      "Noam Shazeer",
+      "Niki Parmar",
+      "Jakob Uszkoreit",
+      "Llion Jones",
+      "Aidan N. Gomez",
+      "Łukasz Kaiser",
+      "Illia Polosukhin"
+    ],
+    "year": 2017,
+    "venue": "31st Conference on Neural Information Processing Systems (NIPS 2017)",
+    "keywords": [
+      "Transformer",
+      "Attention Mechanism",
+      "Sequence Transduction",
+      "Machine Translation"
+    ],
+    "summary": [
+      "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks.",
+      "The proposed Transformer model relies solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+      "Experiments on two machine translation tasks show the Transformer model to be superior in quality.",
+      "The model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task.",
+      "The model establishes a new single-model state-of-the-art BLEU score of 41.8 on the WMT 2014 English-to-French translation task.",
+      "The Transformer generalizes well to other tasks, including English constituency parsing."
+    ]
+  },
+  {
+    "paper_id": "arxiv:submit/4812508",
+    "title": "GPT-4 Technical Report",
+    "authors": [
+      "OpenAI"
+    ],
+    "year": 2023,
+    "venue": "arXiv",
+    "keywords": [
+      "GPT-4",
+      "Large Language Model",
+      "Transformer",
+      "Multimodal Model"
+    ],
+    "summary": [
+      "GPT-4 is a large-scale, multimodal model that can accept image and text inputs and produce text outputs.",
+      "GPT-4 exhibits human-level performance on various professional and academic benchmarks.",
+      "The model was pre-trained to predict the next token in a document and fine-tuned using reinforcement learning from human feedback.",
+      "GPT-4 has similar limitations to earlier GPT models, including hallucinations and a limited context window.",
+      "The model's capabilities and limitations create significant and novel safety challenges."
+    ]
+  },
+  {
+    "paper_id": "no-info",
+    "title": "Improving Language Understanding by Generative Pre-Training",
+    "authors": [
+      "Alec Radford",
+      "Karthik Narasimhan",
+      "Tim Salimans",
+      "Ilya Sutskever"
+    ],
+    "year": 2025,
+    "venue": "no-info",
+    "keywords": [
+      "Natural Language Understanding",
+      "Generative Pre-Training",
+      "Language Model",
+      "Transfer Learning"
+    ],
+    "summary": [
+      "Natural language understanding comprises a wide range of diverse tasks such as textual entailment, question answering, semantic similarity assessment, and document classification.",
+      "Large gains on these tasks can be realized by generative pre-training of a language model on a diverse corpus of unlabeled text.",
+      "Task-aware input transformations are used during fine-tuning to achieve effective transfer while requiring minimal changes to the model architecture.",
+      "The approach is evaluated on a wide range of benchmarks for natural language understanding.",
+      "The general task-agnostic model outperforms discriminatively trained models that use architectures specifically crafted for each task.",
+      "Significant improvements are achieved on 9 out of the 12 tasks studied."
+    ]
+  }
+]

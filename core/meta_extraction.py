@@ -1,116 +1,133 @@
-from config.settings import Settings
-from langchain_groq import ChatGroq
-from core.structure import ResearchPaper
-from langchain_core.prompts import ChatPromptTemplate
+# core/meta_extraction.py
+
+from pathlib import Path
 from typing import List, Dict
+import json
+
+from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
-import streamlit as st
 
-INFO_PDF = """
-use this context to extract the following information from the document and Metadata:
-don't inculde any other information than from given text information.
-Metadata:
-{metadata}
+from config.settings import settings
+from core.structure import ResearchPaper
 
-Document Sections:
-{section_context}
-"""
+
+METADATA_PATH = Path("data/metadata/metadata.json")
 
 
 class MetaExtraction:
     """
-    Extracts structured metadata from a research paper
-    and stores it in Streamlit session memory (temporary).
+    Extracts structured research paper metadata
+    and persists it to JSON (backend-only).
     """
 
-    def __init__(
-        self,
-        page_metadata: Dict,
-        section_doc: List[Document]
-    ):
+    def __init__(self, page_metadata: Dict, section_doc: List[Document]):
         self.page_metadata = page_metadata
         self.section_doc = section_doc
 
-        # ✅ Streamlit session memory init (SAFE)
-        if "paper_metadata_store" not in st.session_state:
-            st.session_state.paper_metadata_store = []
-
         self.llm = ChatGroq(
-            model=Settings.GPT_MODEL_NAME,
-            temperature=Settings.TEMPRATURE
+            model=settings.GPT_MODEL_NAME,
+            temperature=settings.TEMPRATURE
         )
 
         self.prompt = ChatPromptTemplate.from_messages([
             (
                 "system",
-                """Extract structured information from the given research paper.
-                In summary, rewrite the content in a clear, concise, and easy-to-read academic style.
-
-                Instructions for summary:
-                - Use simple and formal academic language
-                - Avoid unnecessary jargon and repetition
-                - Keep sentences short and well structured
-                - Preserve the original meaning and technical accuracy
-                - Do NOT introduce new information
-                - Present the summary as a coherent paragraph
-
-                The output should be suitable for:
-                - Research paper summaries
-                - Academic dashboards
-                - Structured information storage
+                """You are an academic metadata extraction system.
+                Extract ONLY verified information.
+                Output must strictly match the schema.
                 """
             ),
-            ("human", INFO_PDF)
+            ("human", "Extract structured metadata from this PDF content:\n\n{pdf_section}")
         ])
 
-    def build_context(self) -> str:
-        if not self.section_doc:
-            raise ValueError("No document sections provided")
+        METADATA_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-        context = ""
-        for doc in self.section_doc[:3]:
-            context += f"\n{doc.metadata.get('section', '')}\n"
-            context += doc.page_content
+    # ---------------------------
+    # Metadata persistence
+    # ---------------------------
 
-        return context
+    def _load_metadata(self) -> list[dict]:
+        if METADATA_PATH.exists():
+            with open(METADATA_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return []
 
-    def build_prompt(self):
-        return self.prompt.invoke({
-            "metadata": self.page_metadata,
-            "section_context": self.build_context()
-        })
+    def _save_metadata(self, store: list[dict]) -> None:
+        with open(METADATA_PATH, "w", encoding="utf-8") as f:
+            json.dump(store, f, indent=2, ensure_ascii=False)
 
-    def metadata_doc(self, prompt_response: Dict):
-        for doc in self.section_doc:
-            doc.metadata.update(prompt_response)
-        return self.section_doc
+    def _upsert_metadata(self, record: dict) -> None:
+        store = self._load_metadata()
 
-    def save_metadata_to_session(self, updated_meta: Dict):
-        """
-        Store or update research paper metadata in Streamlit session memory.
-        Title is used as PRIMARY KEY.
-        """
-        store = st.session_state.paper_metadata_store
-
-        # UPSERT by title
         for i, existing in enumerate(store):
-            if existing["title"] == updated_meta["title"]:
-                store[i] = updated_meta
+            if existing.get("paper_id") == record.get("paper_id"):
+                store[i] = record
+                self._save_metadata(store)
                 return
 
-        store.append(updated_meta)
-    def update_metadata(self):
+        store.append(record)
+        self._save_metadata(store)
+
+    # ---------------------------
+    # Helpers
+    # ---------------------------
+
+    def _attach_metadata(self, metadata: dict) -> None:
+        for doc in self.section_doc:
+            doc.metadata.update(metadata)
+
+    def _build_pdf_context(self) -> str:
+        """
+        Build context from document chunks with a strict global word limit.
+        """
+        MAX_WORDS = 1500
+        context_words = []
+        total_words = 0
+
+        for idx, doc in enumerate(self.section_doc):
+            if idx >= 3:   # only first 3 chunks
+                break
+
+            words = doc.page_content.strip().split()
+            remaining = MAX_WORDS - total_words
+
+            if remaining <= 0:
+                break
+
+            # Trim current chunk if it exceeds remaining budget
+            if len(words) > remaining:
+                words = words[:remaining]
+
+            context_words.extend(words)
+            total_words += len(words)
+
+            print(f"Chunk {idx}: added {len(words)} words | total = {total_words}")
+            print("=" * 80)
+
+        return " ".join(context_words)
+
+
+    # ---------------------------
+    # Public API
+    # ---------------------------
+
+    def update_metadata(self) -> List[Document]:
         structured_llm = self.llm.with_structured_output(ResearchPaper)
 
-        prompt_value = self.build_prompt()
-
+        pdf_section = self._build_pdf_context()
+        print(len(pdf_section.split(" ")))
+        prompt_value = self.prompt.invoke({
+            "pdf_section": pdf_section
+        })
+        
         paper: ResearchPaper = structured_llm.invoke(
             prompt_value.to_messages()
         )
 
-        updated_meta = {
-            "title": paper.title,
+        metadata = {
             "paper_id": paper.paper_id,
+            "title": paper.title,
             "authors": paper.authors,
             "year": paper.year,
             "venue": paper.venue,
@@ -118,10 +135,7 @@ class MetaExtraction:
             "summary": paper.summary
         }
 
-        # ✅ Store in session (instead of SQLite)
-        self.save_metadata_to_session(updated_meta)
-
-        # ✅ Attach metadata to all document chunks
-        self.metadata_doc(updated_meta)
+        self._upsert_metadata(metadata)
+        self._attach_metadata(metadata)
 
         return self.section_doc

@@ -20,14 +20,14 @@ def render_dashboard():
     papers = PaperService.fetch_all()
 
     if not papers:
-        st.info("📂 No research papers uploaded yet.")
+        st.info("📂 No research papers available yet.")
         st.markdown("""
-        **To get started:**
-        1. Go to **Load Papers**
-        2. Upload a PDF
-        3. Click **Process & Embed**
+        Papers are added by the admin via the ingestion pipeline.
+        
+        Once papers are processed, they will appear here automatically.
         """)
         return
+
 
     left_col, divider_col, right_col = st.columns([1, 0.03, 1])
 
@@ -76,18 +76,26 @@ def render_dashboard():
         else:
             st.info("No year information available.")
 
-        keyword = st.text_input("Filter by keyword")
+        all_keywords = sorted({
+            kw
+            for p in papers
+            for kw in p.get("keywords", [])
+        })
 
-        if keyword:
-            kw = keyword.lower()
+        selected_keywords = st.multiselect(
+            "Filter by keyword (optional)",
+            options=all_keywords
+        )
+
+        if selected_keywords:
             filtered = [
                 p for p in filtered
-                if (
-                    kw in p.get("title", "").lower()
-                    or kw in p.get("summary", "").lower()
-                    or kw in " ".join(p.get("keywords", [])).lower()
+                if any(
+                    kw.lower() in " ".join(p.get("keywords", [])).lower()
+                    for kw in selected_keywords
                 )
             ]
+
 
         if not filtered:
             st.warning("No papers match the current filters.")
