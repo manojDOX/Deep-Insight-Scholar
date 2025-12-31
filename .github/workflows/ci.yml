@@ -11,39 +11,51 @@ on:
 jobs:
   run-project:
     runs-on: ubuntu-latest
-
+    
     env:
       # LLM / API Configuration
       GPT_MODEL_NAME: ${{ secrets.GPT_MODEL_NAME }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
-
+      
       # RAG / Vector Store Configuration
       FAISS_INDEX_PATH: ${{ secrets.FAISS_INDEX_PATH }}
       EMBEDDING_MODEL: ${{ secrets.EMBEDDING_MODEL }}
-
+      
       # Chunking & Retrieval Parameters
       CHUNK_SIZE: ${{ secrets.CHUNK_SIZE }}
       CHUNK_OVERLAP: ${{ secrets.CHUNK_OVERLAP }}
       TOP_K_RESULTS: ${{ secrets.TOP_K_RESULTS }}
-
+      
       # LLM Parameters
       TEMPRATURE: ${{ secrets.TEMPRATURE }}
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-
+      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run application
+      
+      - name: Verify file structure
         run: |
-          streamlit run .\main.py
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -la
+          echo "Checking for main.py:"
+          test -f main.py && echo "main.py found" || echo "main.py NOT found"
+      
+      - name: Run application (headless mode)
+        run: |
+          streamlit run main.py --server.headless=true --server.port=8501 &
+          sleep 10
+          echo "Streamlit server started successfully"
+          pkill -f streamlit
