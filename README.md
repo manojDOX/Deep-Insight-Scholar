@@ -68,8 +68,16 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory and add your API keys:
 
 ```env
-GROQ_API_KEY=your_groq_api_key_here
-TAVILY_API_KEY=your_tavily_api_key_here
+GPT_MODEL_NAME=llama-3.3-70b-versatile
+GROQ_API_KEY=
+TEMPRATURE=0
+FAISS_INDEX_PATH=/data/faiss_index
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+CHUNK_SIZE=1300
+CHUNK_OVERLAP=300
+TOP_K_RESULTS=5
+TAVILY_API_KEY=
+METADATA_FILE=data/metadata/metadata.json
 ```
 
 ---
