@@ -1,5 +1,9 @@
 # Deep Insight Scholar 📘
 
+Name - Manoj B
+Mail ID - manoj2882003@gmail.com
+Video Link -  **[Video Explanation](https://drive.google.com/file/d/1ZMiQwh6aN8qnxCeYTdJBqL88diFC5e1z/view?usp=sharing)**
+
 **Deep Insight Scholar** is a modular research paper processing and semantic search intelligence system. It ingests academic PDF documents, extracts structured insights, and provides a powerful RAG (Retrieval-Augmented Generation) interface for researchers to query, analyze, and visualize trends across their document library.
 
 🔗 **[Live Demo](https://deep-insight-scholar.streamlit.app/)**
