@@ -5,10 +5,18 @@ from typing import List, Dict
 
 class EmbeddingManager:
     """
-    Manages text embeddings using a specified HuggingFace model.
+    Manages text embeddings using a specified HuggingFace model
     """
 
     def __init__(self, model_name: str = None):
+        """
+        Initializes the EmbeddingManager with a specific model or default from settings
+
+        Args:
+              model_name: Name of the HuggingFace model to use (optional)
+        Returns:
+              None
+        """
         self.model_name = model_name or settings.EMBEDDING_MODEL
         self._embedding = HuggingFaceEmbeddings(
             model_name=self.model_name,
@@ -19,48 +27,57 @@ class EmbeddingManager:
     @property
     def embedding(self) -> HuggingFaceEmbeddings:
         """
-        Get the HuggingFaceEmbeddings instance.
+        Retrieves the initialized HuggingFaceEmbeddings instance
+
+        Args:
+              No arguments
         Returns:
-            HuggingFaceEmbeddings: The HuggingFaceEmbeddings instance.
+              HuggingFaceEmbeddings instance
         """
         return self._embedding
 
     def embed_text(self, text: str) -> List[float]:
         """
-        Embed a text string using the HuggingFace model.
+        Generates an embedding vector for a single text string
+
         Args:
-            text (str): The text to be embedded.
+              text: The input string to be embedded
         Returns:
-            List[float]: The embedded representation of the text.
+              List of floats representing the text embedding
         """
         return self.embedding.embed_query(text)
 
     def embed_texts(self, texts: List[str]) -> List[List[float]]:
         """
-        Embed a list of text strings using the HuggingFace model.
+        Generates embedding vectors for a list of text strings
+
         Args:
-            texts (List[str]): A list of text strings to be embedded.
+              texts: List of input strings to be embedded
         Returns:
-            List[List[float]]: A list of embedded representations of the text strings.
+              List of lists containing float embeddings for each text
         """
         return self.embedding.embed_documents(texts)
 
     def embed_chunks(self, chunks: List[Dict]) -> List[List[float]]:
         """
-        Embed a list of text chunks using the HuggingFace model.
+        Extracts text from chunks and generates embeddings for them
+
         Args:
-            chunks (List[Dict]): A list of dictionaries, each containing 'text' and 'metadata' keys.
+              chunks: List of dictionaries containing 'text' keys
         Returns:
-            List[List[float]]: A list of embedded representations of the text chunks.
+              List of lists containing float embeddings for the chunk texts
         """
         texts = [chunk["text"] for chunk in chunks]
         return self.embedding.embed_documents(texts)
 
     def get_embedding_dimension(self) -> int:
         """
-        Get the dimension of the embeddings produced by the model.
+        Calculates the dimension size of the embeddings produced by the current model
+
+        Args:
+              No arguments
         Returns:
-            int: The dimension of the embeddings.
+              Integer representing the length of the embedding vector
         """
         sample_embedding = self.embed_text("earth")
         return len(sample_embedding)

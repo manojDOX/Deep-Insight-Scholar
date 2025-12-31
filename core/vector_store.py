@@ -2,52 +2,63 @@ from core.embedding import EmbeddingManager
 from langchain_community.vectorstores import FAISS
 from typing import List,Optional
 from config.settings import settings
+from pathlib import Path
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 import os
 
 class VectorStoreManager:
     """
-    Manages a FAISS vector store for document embeddings.
+    Manages a FAISS vector store for document embeddings
     """
     
     def __init__(self,embedding_manager:EmbeddingManager=None):
         """
-        Initialize the VectorStoreManager with an embedding manager.
+        Initialize the VectorStoreManager with an embedding manager
+
         Args:
-        embedding_manager (EmbeddingManager, optional): An embedding manager instance. Defaults to None.
+              embedding_manager: An embedding manager instance (optional)
+        Returns:
+              None
         """
 
         self.embedding_manager=embedding_manager or EmbeddingManager()
         self._vector_store:Optional[FAISS]=None
         # self.index_path=settings.FAST_INDEX_PATH 
-        self.index_path="data/faiss_index"
+        self.index_path=Path(settings._FAISS_INDEX_PATH)
 
     @property
     def vector_store(self)->Optional[FAISS]:
         """
-        Get the FAISS vector store instance.
+        Get the FAISS vector store instance
+
+        Args:
+              No arguments
         Returns:
-        FAISS: The FAISS vector store instance.
+              The FAISS vector store instance
         """
         # Get the vector store instance
         return self._vector_store
 
     def is_initialized(self)->bool:
         """
-        Check if the vector store is initialized.    
+        Check if the vector store is initialized
+
+        Args:
+              No arguments
         Returns:
-        bool: True if the vector store is initialized, False otherwise.
+              True if the vector store is initialized, False otherwise
         """
         return self._vector_store is not None
     
     def create_from_documents(self,documents:List[Document]):
         """
-        create a new vector store from documents
+        Create a new vector store from documents
+
         Args:
-        documents: list of document object to index
-        returns:
-        FAISS vector store instance
+              documents: list of document object to index
+        Returns:
+              None
         """
         self._vector_store=FAISS.from_documents(
             documents=documents,
@@ -56,9 +67,12 @@ class VectorStoreManager:
         
     def add_documents(self,documents:List[Document])->None:
         """
-        stroring vector store to disk
+        Storing vector store to disk or adding to existing index
+
         Args:
-        documents: list of document object to add to the index
+              documents: list of document object to add to the index
+        Returns:
+              None
         """
         if not self.is_initialized():
             self.create_from_documents(documents)
@@ -67,11 +81,13 @@ class VectorStoreManager:
         
     def search(self,query:str,k:int=None)->List[Document]:  
         """
-        search the vector store for similar documents
+        Search the vector store for similar documents
+
         Args:
-        query: search query
-        k: number of top results to retrieve
-        returns: list of document objects
+              query: search query
+              k: number of top results to retrieve
+        Returns:
+              List of document objects
         """
         if not self.is_initialized():
             raise ValueError("Vector store is not initialized")
@@ -83,9 +99,12 @@ class VectorStoreManager:
         return results
     def save(self,path:str=None)->None:
         """
-        save vectore store to disk
+        Save vector store to disk
+
         Args:
-        path: path to save the vector store
+              path: path to save the vector store
+        Returns:
+              None
         """
         if not self.is_initialized():
             raise ValueError("Vector store is not initialized")
@@ -95,10 +114,12 @@ class VectorStoreManager:
 
     def load(self,path:str=None)->FAISS:
         """
-        load vector store from disk
+        Load vector store from disk
+
         Args:
-        path: path to load the vector store
-        returns: FAISS vector store instance
+              path: path to load the vector store
+        Returns:
+              FAISS vector store instance
         """
         load_path = path or self.index_path
         self._vector_store=FAISS.load_local(
@@ -110,12 +131,13 @@ class VectorStoreManager:
 
     def get_retriever(self, k: int = None, metadata_filter: dict | None = None)->BaseRetriever:
         """
-        Get a retriever from the vector store.
+        Get a retriever from the vector store
+
         Args:
-            k: number of top results to retrieve
-            metadata_filter: optional metadata filter (e.g. {"title": "paper name"})
+              k: number of top results to retrieve
+              metadata_filter: optional metadata filter (e.g. {"title": "paper name"})
         Returns:
-            Retriever object compatible with LangChain
+              Retriever object compatible with LangChain
         """
         if not self.is_initialized():
             raise ValueError("Vector store is not initialized")
@@ -132,5 +154,12 @@ class VectorStoreManager:
         )
 
     def clear(self)->None:
-        self._vector_store=None
+        """
+        Clears the current vector store instance
 
+        Args:
+              No arguments
+        Returns:
+              None
+        """
+        self._vector_store=None

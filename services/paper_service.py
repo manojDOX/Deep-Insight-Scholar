@@ -1,5 +1,3 @@
-# services/paper_service.py
-
 from typing import List, Dict, Tuple, Optional
 from pathlib import Path
 import json
@@ -10,15 +8,18 @@ METADATA_PATH = Path("data/metadata/metadata.json")
 
 class PaperService:
     """
-    Reads and filters paper metadata from persisted JSON storage.
-    Data source: data/metadata/metadata.json
+    Reads and filters paper metadata from persisted JSON storage
     """
 
     @staticmethod
     def fetch_all() -> List[Dict]:
         """
-        Fetch all papers from metadata.json.
-        Returns empty list if file does not exist.
+        Fetch all papers from metadata.json
+
+        Args:
+              No arguments
+        Returns:
+              List of dictionaries containing paper metadata
         """
         if not METADATA_PATH.exists():
             return []
@@ -29,7 +30,12 @@ class PaperService:
     @staticmethod
     def get_years(papers: List[Dict]) -> List[int]:
         """
-        Extract unique years from papers.
+        Extract unique years from the provided list of papers
+
+        Args:
+              papers: List of dictionaries containing paper metadata
+        Returns:
+              Sorted list of integer years found in the papers
         """
         return sorted(
             {p.get("year") for p in papers if p.get("year") is not None}
@@ -42,7 +48,14 @@ class PaperService:
         keyword: Optional[str] = None
     ) -> List[Dict]:
         """
-        Filter papers by year range and keyword.
+        Filter papers by specific year range and keyword search
+
+        Args:
+              papers: List of paper metadata dictionaries
+              year_range: Tuple containing min and max year (optional)
+              keyword: Search string to filter title, summary, or keywords (optional)
+        Returns:
+              List of dictionaries matching the filter criteria
         """
         filtered = papers
 

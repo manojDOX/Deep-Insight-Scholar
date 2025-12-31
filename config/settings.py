@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from dataclasses import dataclass
+from pathlib import Path
 import os
 
 load_dotenv()
@@ -9,6 +10,7 @@ class Settings:
     """
     Configuration settings loaded from environment variables.
     """
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
     _FAISS_INDEX_PATH:str = os.getenv("FAISS_INDEX_PATH")
     EMBEDDING_MODEL:str = os.getenv("EMBEDDING_MODEL")

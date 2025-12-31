@@ -10,11 +10,30 @@ import re
 
 
 class DocumentProcessor:
+    """
+    Handles the loading, processing, and section-based segmentation of documents
+    """
     def __init__(self,path:str=None
                  ):
+        """
+        Initializes the document processor with the file path
+
+        Args:
+              path: File path string to the document
+        Returns:
+              None
+        """
         self.path=path
 
     def load_document(self)->List[Document]:
+        """
+        Loads the document content using the appropriate loader based on file extension
+
+        Args:
+              No arguments
+        Returns:
+              List of Document objects loaded from the file
+        """
 
         if not Path(self.path).exists():
             raise ValueError(f"File {self.path} does not exist")
@@ -30,6 +49,14 @@ class DocumentProcessor:
             raise ValueError(f"Unsupported file format {self.path}") 
         return loader.load()
     def _document_to_text(self,document:List[Document])->List[str]:
+        """
+        Converts a list of Documents into a clean, tokenized list of strings
+
+        Args:
+              document: List of Document objects
+        Returns:
+              List of string tokens from the document content
+        """
         text = str()
         for doc in document:
             text+=doc.page_content
@@ -38,18 +65,26 @@ class DocumentProcessor:
         return text.split(" ")
     @property
     def pdf_metadata(self)->Dict:
+        """
+        Extracts metadata from the loaded document
+
+        Args:
+              No arguments
+        Returns:
+              Dictionary containing document metadata
+        """
         doc  = self.load_document()
         _meta = doc[0].metadata
         return _meta
 
     def _section_info(self,text_list:List[str])->Dict:
         """
-        Extracts section based on the SECTION_PATTERNS values mentioned if found then
-        the text view is redused to that section and update the page_dict with section 
-        list position
+        Identifies logical sections in the text based on predefined patterns
+
         Args:
-            text (str): string containing text of the document
-            Dict: dictionary of sections list position for extraction
+              text_list: List of string tokens representing the document text
+        Returns:
+              Dictionary mapping section names to their starting indices
         """
         SECTION_PATTERNS = {
             "abstract": ["abstract","abstract:","abstract."],
@@ -75,6 +110,15 @@ class DocumentProcessor:
         
 
     def _document_prep(self,page_dict:Dict,text_list:List[str])->List[Document]:
+        """
+        Segments the text list into Document objects corresponding to identified sections
+
+        Args:
+              page_dict: Dictionary of section indices
+              text_list: List of string tokens
+        Returns:
+              List of Document objects with section metadata
+        """
         value_list = list(page_dict.values())
         key = list(page_dict.keys())
         upadted_document = list()
@@ -101,11 +145,17 @@ class DocumentProcessor:
         )
         return upadted_document
     def process(self)->List[Document]:
+        """
+        Executes the full pipeline: load, convert, identify sections, and segment document
+
+        Args:
+              No arguments
+        Returns:
+              List of processed Document objects split by section
+        """
 
         loaded_document = self.load_document()
         text = self._document_to_text(loaded_document)
         section_dict = self._section_info(text)
         upadted_document = self._document_prep(section_dict,text)
         return upadted_document
-    
-        

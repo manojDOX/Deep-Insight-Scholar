@@ -9,6 +9,14 @@ import streamlit as st
 
 
 def init_vector_store():
+    """
+    Initialize the vector store and load it into Streamlit's session state if not already present
+
+    Args:
+          No arguments
+    Returns:
+          None
+    """
     if "vector_store" in st.session_state:
         return
 
@@ -26,6 +34,14 @@ def init_vector_store():
 
 
 def render_layout():
+    """
+    Configure the Streamlit page layout and render the main application tabs
+
+    Args:
+          No arguments
+    Returns:
+          None
+    """
     st.set_page_config(
         page_title="Deep Insight Scholar",
         layout="wide"

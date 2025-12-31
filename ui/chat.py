@@ -7,6 +7,14 @@ from core.chain import RAGChain
 
 
 def render_chat(scoped: bool = False):
+    """
+    Renders the Streamlit chat interface, handling user input, search mode selection, and displaying RAG or web search results
+
+    Args:
+           scoped: Boolean flag to restrict context to the active paper (default: False)
+    Returns:
+           None
+    """
     st.header("🤖 Research Chat Assistant")
 
     papers = PaperService.fetch_all()
@@ -29,9 +37,6 @@ def render_chat(scoped: bool = False):
         st.caption(f"💡 Context restricted to **{active_title}**")
         metadata_filter = {"title": active_title}
 
-    # ----------------------------
-    # FORM (CRITICAL FIX)
-    # ----------------------------
     with st.form(key=f"chat_form_{'scoped' if scoped else 'global'}"):
 
         search_mode = st.radio(
@@ -113,6 +118,14 @@ def render_chat(scoped: bool = False):
 
 
 def extract_sections(documents):
+    """
+    Extracts and deduplicates section names from the metadata of retrieved documents
+
+    Args:
+           documents: List of Document objects containing metadata
+    Returns:
+           Sorted list of unique section names
+    """
     sections = []
     for doc in documents:
         section = doc.metadata.get("section")

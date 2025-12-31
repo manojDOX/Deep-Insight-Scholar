@@ -4,6 +4,14 @@ from ui.chat import render_chat
 
 
 def render_dashboard():
+    """
+    Renders the main dashboard interface for browsing, filtering, and interacting with research papers
+
+    Args:
+           No arguments
+    Returns:
+           None
+    """
     st.header("📚 Paper Library")
     st.markdown(
             """
@@ -119,10 +127,6 @@ def render_dashboard():
 
         st.subheader("🧠 Summary")
         st.write(" ".join(paper.get("summary", [])))
-
-        # if st.button("💬 Ask about this paper"):
-        #     st.session_state.focus_chat = True
-        #     st.session_state.active_paper_title = paper["title"]
 
 
     with right_col:

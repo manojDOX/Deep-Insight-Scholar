@@ -13,10 +13,26 @@ FAISS_DIR = Path("data/faiss_index")
 
 
 def prepare_directories() -> None:
+    """
+    Creates necessary directories for storing the FAISS index if they don't exist
+
+    Args:
+          No arguments
+    Returns:
+          None
+    """
     FAISS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def ingest_pdfs() -> None:
+    """
+    Orchestrates the full PDF ingestion pipeline: processing, metadata extraction, chunking, and indexing
+
+    Args:
+          No arguments
+    Returns:
+          None
+    """
     prepare_directories()
 
     vector_store = VectorStoreManager()
@@ -31,7 +47,7 @@ def ingest_pdfs() -> None:
         pdf_metadata = processor.pdf_metadata
 
         extractor = MetaExtraction(pdf_metadata, docs)
-        enriched_docs = extractor.update_metadata()  # ✅ JSON saved HERE
+        enriched_docs = extractor.update_metadata()  
 
         chunker = Chunking(document=enriched_docs)
         chunks = chunker.intiate_chunk()
@@ -43,4 +59,4 @@ def ingest_pdfs() -> None:
 
 if __name__ == "__main__":
     ingest_pdfs()
-    print("✅ PDFs processed, FAISS index & structured metadata saved.")
+    print(" PDFs processed, FAISS index & structured metadata saved.")

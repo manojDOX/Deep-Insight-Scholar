@@ -1,30 +1,15 @@
-"""
-RAG Chain Module
-================
-DAY 3: This module orchestrates the RAG pipeline.
-
-SOLID Principle: Single Responsibility Principle (SRP)
-- This class has ONE job: orchestrate retrieval and generation
-
-Topics to teach:
-- LLM integration with Groq (FREE!)
-- Prompt templates
-- Chain composition
-- Context injection
-- Response generation
-"""
-
 from typing import List, Optional, Generator
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_groq import ChatGroq
-
 from config.settings import settings
 from core.vector_store import VectorStoreManager
 
 
-# RAG Prompt Template
+"""
+RAG Prompt Template
+"""
 RAG_PROMPT_TEMPLATE = """
 You are an AI Research Analyst working for an Academic Research Intelligence Platform.
 
@@ -35,7 +20,7 @@ STRICT RULES:
 1. Use ONLY the information present in the provided context.
 2. Do NOT invent papers, authors, years, results, or citations.
 3. If the context is insufficient, clearly say: 
-   "The provided papers do not contain enough information to answer this question."
+   "The provided papers do not contain enough information to answer this question."
 4. When possible, reference paper titles, authors, and years explicitly.
 5. Prefer concise, academic-style explanations.
 6. If multiple papers are provided, compare and synthesize their findings.
@@ -52,12 +37,7 @@ Answer: """
 
 class RAGChain:
     """
-    Orchestrates the RAG (Retrieval-Augmented Generation) pipeline.
-    
-    Uses:
-    - Groq for LLM inference (FREE!)
-    - FAISS for vector retrieval
-    - Custom prompts for response generation
+    Manages the Retrieval-Augmented Generation pipeline including document retrieval, context formatting, and LLM generation
     """
     
     def __init__(
@@ -67,44 +47,49 @@ class RAGChain:
         temperature: float = None
     ):
         """
-        Initialize the RAG chain.
-        
+        Initialize the RAG chain with vector store and model configurations
+
         Args:
-            vector_store_manager: VectorStoreManager instance with indexed documents
-            model_name: Groq model name (default from settings)
-            temperature: LLM temperature (default from settings)
+               vector_store_manager: VectorStoreManager instance with indexed documents
+               model_name: Groq model name (default from settings)
+               temperature: LLM temperature (default from settings)
+        Returns:
+               None
         """
         self.vector_store = vector_store_manager
         self.model_name = model_name or settings.GPT_MODEL_NAME
         self.temperature = temperature if temperature is not None else settings.TEMPRATURE
         
-        # Initialize Groq LLM
         self._llm = ChatGroq(
             model=self.model_name,
             temperature=self.temperature,
             api_key=settings.GROQ_API_KEY
         )
         
-        # Initialize prompt template
         self._prompt = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
         
-        # Output parser
         self._output_parser = StrOutputParser()
     
     @property
     def llm(self) -> ChatGroq:
-        """Get the LLM instance."""
+        """
+        Retrieves the configured ChatGroq Language Model instance
+
+        Args:
+               No arguments
+        Returns:
+               ChatGroq instance
+        """
         return self._llm
     
     def _format_context(self, documents: List[Document]) -> str:
         """
-        Format retrieved documents into a context string.
-        
+        Formats retrieved documents into a single structured string for the prompt
+
         Args:
-            documents: List of retrieved documents
-            
+               documents: List of retrieved documents
         Returns:
-            Formatted context string
+               Formatted context string containing document source and content
         """
         if not documents:
             return "No relevant context found."
@@ -122,6 +107,16 @@ class RAGChain:
         k: int = None,
         metadata_filter: dict | None = None
     ) -> List[Document]:
+        """
+        Searches and retrieves relevant documents from the vector store based on the query
+
+        Args:
+               query: User query string
+               k: Number of documents to retrieve
+               metadata_filter: Dictionary for filtering results based on metadata
+        Returns:
+               List of relevant Document objects
+        """
 
         if not self.vector_store.is_initialized():
             return []
@@ -138,19 +133,16 @@ class RAGChain:
     
     def generate(self, query: str, context: str) -> str:
         """
-        Generate a response given query and context.
-        
+        Generates a text response using the LLM based on the query and provided context
+
         Args:
-            query: User's question
-            context: Retrieved context string
-            
+               query: User's question
+               context: Retrieved and formatted context string
         Returns:
-            Generated response
+               Generated response string
         """
-        # Create the chain: prompt -> llm -> parser
         chain = self._prompt | self._llm | self._output_parser
         
-        # Invoke the chain
         response = chain.invoke({
             "context": context,
             "question": query
@@ -160,19 +152,16 @@ class RAGChain:
     
     def generate_stream(self, query: str, context: str) -> Generator[str, None, None]:
         """
-        Generate a streaming response.
-        
+        Generates a streaming text response using the LLM based on the query and context
+
         Args:
-            query: User's question
-            context: Retrieved context string
-            
-        Yields:
-            Response chunks as they're generated
+               query: User's question
+               context: Retrieved and formatted context string
+        Returns:
+               Generator yielding response chunks as strings
         """
-        # Create the chain
         chain = self._prompt | self._llm | self._output_parser
         
-        # Stream the response
         for chunk in chain.stream({
             "context": context,
             "question": query
@@ -181,49 +170,41 @@ class RAGChain:
     
     def query(self, question: str,metadata_filter:dict | None, k: int = None) -> dict:
         """
-        Complete RAG pipeline: retrieve and generate.
-        
+        Executes the full RAG pipeline including retrieval, formatting, and generation
+
         Args:
-            question: User's question
-            k: Number of documents to retrieve
-            
+               question: User's question
+               metadata_filter: Dictionary for filtering documents
+               k: Number of documents to retrieve
         Returns:
-            Dictionary with 'answer', 'sources', and 'context'
+               Dictionary containing the answer, unique sources, context, and raw documents
         """
-        # Step 1: Retrieve relevant documents
         documents = self.retrieve(question, k=k,metadata_filter=metadata_filter)
-        # Step 2: Format context
         context = self._format_context(documents)
         
-        # Step 3: Generate response
         answer = self.generate(question, context)
         
-        # Extract sources
         sources = [doc.metadata.get("title", "Unknown") for doc in documents]
         return {
             "answer": answer,
-            "sources": list(set(sources)),  # Unique sources
+            "sources": list(set(sources)), 
             "context": context,
             "documents": documents
         }
     
     def query_stream(self, question: str, k: int = None) -> Generator[str, None, None]:
         """
-        Complete RAG pipeline with streaming response.
-        
+        Executes the full RAG pipeline and returns a streaming response
+
         Args:
-            question: User's question
-            k: Number of documents to retrieve
-            
-        Yields:
-            Response chunks as they're generated
+               question: User's question
+               k: Number of documents to retrieve
+        Returns:
+               Generator yielding the response chunks
         """
-        # Step 1: Retrieve relevant documents
         documents = self.retrieve(question, k=k)
         
-        # Step 2: Format context
         context = self._format_context(documents)
         
-        # Step 3: Stream response
         for chunk in self.generate_stream(question, context):
             yield chunk

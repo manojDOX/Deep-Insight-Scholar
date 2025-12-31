@@ -7,14 +7,7 @@ from config.settings import settings
 
 class TavilySearchTool:
     """
-    Web search tool using Tavily API.
-    
-    Use this when:
-    - User asks about current events
-    - Document search doesn't have relevant information
-    - User explicitly asks to search the web
-    
-    Tavily provides high-quality, AI-optimized search results.
+    Web search tool using Tavily API for retrieving current events or external information
     """
     
     def __init__(
@@ -23,11 +16,13 @@ class TavilySearchTool:
         topic: Literal["general", "news", "finance"] = "general"
     ):
         """
-        Initialize the Tavily search tool.
-        
+        Initialize the Tavily search tool with configuration parameters
+
         Args:
-            max_results: Maximum number of search results
-            topic: Search topic - "general", "news", or "finance"
+               max_results: Maximum number of search results to return
+               topic: Search topic category - "general", "news", or "finance"
+        Returns:
+               None
         """
         self.max_results = max_results
         self.topic = topic
@@ -43,31 +38,36 @@ class TavilySearchTool:
     
     @property
     def tool(self) -> TavilySearch:
-        """Get the Tavily search tool instance."""
+        """
+        Get the underlying Tavily search tool instance
+
+        Args:
+               No arguments
+        Returns:
+               TavilySearch instance
+        """
         return self._search
     
     def search(self, query: str) -> str:
         """
-        Perform a web search and return formatted string.
-        
+        Perform a web search and return the results as a formatted string
+
         Args:
-            query: Search query
-            
+               query: Search query string
         Returns:
-            Search results as formatted string
+               Formatted string containing search results
         """
         results = self._search.invoke(query)
         return self._format_results(results)
     
     def _format_results(self, results: dict) -> str:
         """
-        Format Tavily results dictionary into readable string.
-        
+        Format raw Tavily results dictionary into a readable string
+
         Args:
-            results: Raw Tavily results dictionary
-            
+               results: Raw dictionary returned by Tavily API
         Returns:
-            Formatted string of search results
+               Formatted string of search results or "No results found."
         """
         if not results:
             return "No search results found."
@@ -90,13 +90,12 @@ class TavilySearchTool:
     
     def search_with_context(self, query: str) -> dict:
         """
-        Perform a web search and return structured results.
-        
+        Perform a web search and return structured results with metadata
+
         Args:
-            query: Search query
-            
+               query: Search query string
         Returns:
-            Dictionary with search results and metadata
+               Dictionary containing query, raw results, formatted text, and source info
         """
         raw_results = self._search.invoke(query)
         
@@ -110,11 +109,12 @@ class TavilySearchTool:
 
 class HybridSearchManager:
     """
-    Manages hybrid search: combines document search with web search.
-    
-    Strategy:
-    1. First, search in local documents
-    2. If results are insufficient, augment with web search
+    Manages hybrid search strategy combining local document search with web search
+
+    Args:
+           No arguments for class definition
+    Returns:
+           HybridSearchManager instance
     """
     
     def __init__(
@@ -123,11 +123,13 @@ class HybridSearchManager:
         tavily_tool: TavilySearchTool = None
     ):
         """
-        Initialize hybrid search manager.
-        
+        Initialize hybrid search manager with vector store and optional web search tool
+
         Args:
-            vector_store_manager: VectorStoreManager for document search
-            tavily_tool: TavilySearchTool for web search
+               vector_store_manager: VectorStoreManager instance for document search
+               tavily_tool: TavilySearchTool instance for web search (optional)
+        Returns:
+               None
         """
         self.vector_store = vector_store_manager
         self.tavily = tavily_tool or TavilySearchTool()
@@ -139,15 +141,14 @@ class HybridSearchManager:
         doc_k: int = 3
     ) -> dict:
         """
-        Perform hybrid search.
-        
+        Perform hybrid search across documents and optionally the web
+
         Args:
-            query: Search query
-            use_web_search: Whether to include web search results
-            doc_k: Number of documents to retrieve
-            
+               query: Search query string
+               use_web_search: Boolean flag to enable/disable web search
+               doc_k: Number of documents to retrieve from vector store
         Returns:
-            Dictionary with document and web search results
+               Dictionary containing document results and web results
         """
         results = {
             "query": query,
@@ -173,14 +174,13 @@ class HybridSearchManager:
         web_results: Optional[str] = None
     ) -> str:
         """
-        Format hybrid search results into context string.
-        
+        Format combined hybrid search results into a single context string
+
         Args:
-            doc_results: Document search results
-            web_results: Web search results
-            
+               doc_results: List of Document objects from local search
+               web_results: Formatted string of web search results (optional)
         Returns:
-            Formatted context string
+               Combined context string formatted for LLM consumption
         """
         context_parts = []
         

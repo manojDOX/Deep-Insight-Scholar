@@ -7,17 +7,23 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
+from config.settings import Settings
 from tools.tavily_search import TavilySearchTool
 
 
-METADATA_PATH = Path("data/metadata/metadata.json")
+METADATA_PATH = Path(Settings.METADATA_FILE)
 
 
-# -----------------------------
-# Data helpers
-# -----------------------------
 @st.cache_data
 def load_metadata() -> pd.DataFrame:
+    """
+    Loads and caches metadata from the JSON file into a pandas DataFrame
+
+    Args:
+          No arguments
+    Returns:
+          pandas DataFrame containing the metadata
+    """
     if not METADATA_PATH.exists():
         st.error("metadata.json not found. Run prepare_pdf.py first.")
         st.stop()
@@ -29,6 +35,14 @@ def load_metadata() -> pd.DataFrame:
 
 
 def build_keyword_trends(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Transforms the metadata DataFrame to create a row for each keyword-paper combination
+
+    Args:
+          df: pandas DataFrame containing paper metadata
+    Returns:
+          pandas DataFrame with columns year, keyword, and venue
+    """
     rows = []
     for _, row in df.iterrows():
         for kw in row.get("keywords", []):
@@ -41,6 +55,15 @@ def build_keyword_trends(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def detect_emerging_topics(trend_df: pd.DataFrame, recent_years: int = 2):
+    """
+    Identifies keywords with the highest growth in frequency over the specified recent years
+
+    Args:
+          trend_df: DataFrame containing keyword trends
+          recent_years: Number of recent years to consider for growth calculation (default=2)
+    Returns:
+          pandas Series containing growth scores for emerging topics, sorted descending
+    """
     pivot = (
         trend_df
         .groupby(["year", "keyword"])
@@ -54,6 +77,14 @@ def detect_emerging_topics(trend_df: pd.DataFrame, recent_years: int = 2):
 
 
 def compute_influence(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculates an influence score for papers based on keyword count and venue popularity
+
+    Args:
+          df: pandas DataFrame containing paper metadata
+    Returns:
+          pandas DataFrame sorted by influence score
+    """
     df = df.copy()
     df["keyword_count"] = df.keywords.apply(len)
     df["influence_score"] = (
@@ -63,18 +94,20 @@ def compute_influence(df: pd.DataFrame) -> pd.DataFrame:
     return df.sort_values("influence_score", ascending=False)
 
 
-# -----------------------------
-# Main render function
-# -----------------------------
 def render_trends_and_citations():
+    """
+    Renders the Trends & Citations page, including filters, charts, and emerging topic analysis
+
+    Args:
+          No arguments
+    Returns:
+          None
+    """
     st.header("📈 Research Trends & Citations")
 
     df = load_metadata()
     trend_df = build_keyword_trends(df)
 
-    # -----------------------------
-    # Filters (INLINE, not sidebar)
-    # -----------------------------
     with st.expander("🔍 Filters", expanded=True):
         year_min, year_max = int(df.year.min()), int(df.year.max())
         year_range = st.slider(
@@ -96,9 +129,6 @@ def render_trends_and_citations():
         (trend_df.venue.isin(venue_filter))
     ]
 
-    # -----------------------------
-    # Keyword trends
-    # -----------------------------
     st.subheader("📊 Keyword Trends Over Time")
 
     fig = px.histogram(
@@ -110,9 +140,6 @@ def render_trends_and_citations():
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # -----------------------------
-    # Emerging topics (Tavily)
-    # -----------------------------
     st.subheader("🔥 Emerging Topics")
 
     emerging = detect_emerging_topics(filtered_trend)
@@ -129,9 +156,6 @@ def render_trends_and_citations():
                     )
                 )
 
-    # -----------------------------
-    # Citation / influence proxy
-    # -----------------------------
     st.subheader("🔗 Influential Papers (Proxy View)")
 
     influential = compute_influence(df)
