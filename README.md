@@ -139,9 +139,6 @@ Or visit the **[Live Demo](https://deep-insight-scholar.streamlit.app/)** to try
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🤝 Support
 
