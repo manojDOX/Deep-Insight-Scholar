@@ -37,7 +37,8 @@ class RAGService:
             )
 
         vector_store = VectorStoreManager()
-        vector_store.load()
+        vector_store.load(str(faiss_path))
+
 
         if not vector_store.is_initialized():
             raise RuntimeError("Vector store failed to initialize")
