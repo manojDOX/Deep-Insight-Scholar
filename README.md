@@ -1,5 +1,11 @@
 # Deep Insight Scholar 📘
 
+Name - Manoj B
+
+Mail ID - manoj2882003@gmail.com
+
+Video Link -  **[Video Explanation](https://drive.google.com/file/d/1ZMiQwh6aN8qnxCeYTdJBqL88diFC5e1z/view?usp=sharing)**
+
 **Deep Insight Scholar** is a modular research paper processing and semantic search intelligence system. It ingests academic PDF documents, extracts structured insights, and provides a powerful RAG (Retrieval-Augmented Generation) interface for researchers to query, analyze, and visualize trends across their document library.
 
 🔗 **[Live Demo](https://deep-insight-scholar.streamlit.app/)**
@@ -62,8 +68,16 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory and add your API keys:
 
 ```env
-GROQ_API_KEY=your_groq_api_key_here
-TAVILY_API_KEY=your_tavily_api_key_here
+GPT_MODEL_NAME=llama-3.3-70b-versatile
+GROQ_API_KEY=
+TEMPRATURE=0
+FAISS_INDEX_PATH=/data/faiss_index
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+CHUNK_SIZE=1300
+CHUNK_OVERLAP=300
+TOP_K_RESULTS=5
+TAVILY_API_KEY=
+METADATA_FILE=data/metadata/metadata.json
 ```
 
 ---
@@ -125,9 +139,6 @@ Or visit the **[Live Demo](https://deep-insight-scholar.streamlit.app/)** to try
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🤝 Support
 
